@@ -1,0 +1,27 @@
+package com.yangyang.java.ai.langchain4j.entity;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@TableName("appointment")
+public class Appointment {
+
+    //mp提供的主键生成策略
+    @TableId(type = IdType.AUTO)
+    private Long id;
+    private String username;
+    private String idCard;
+    private String contact;      // 新增：联系方式
+    private String department;
+    private String date;
+    private String time;
+    private String doctorName;
+
+}

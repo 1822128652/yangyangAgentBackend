@@ -1,0 +1,65 @@
+# web服务的端口
+server:
+  port: 8080
+langchain4j:
+  open-ai:
+    chat-model:
+      #base-url: https://api.deepseek.com
+      base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+      #api-key: sk-6fbe896448204fc1a6e229e1e0f8e87f #${DEEP_SEEK_API_KEY}
+      api-key: sk-29792fe9a2b64bcc801c7e22000c1c6c #${DASH_SCOPE_API_KEY}
+      #model-name: deepseek-reasoner
+      model-name: deepseek-r1
+      #model-name: deepseek-chat  #大语言模型
+      #应用程序发生给大模型的请求日志和响应日志
+      log-requests: true
+      log-responses: true
+  ollama:
+    chat-model:
+      base-url: http://localhost:11434
+      model-name: deepseek-r1:1.5b
+      temperature: 0.8
+      timeout: PT60S
+      log-requests: true
+      log-responses: true
+  community:
+    dashscope:
+      chat-model:
+        api-key: sk-29792fe9a2b64bcc801c7e22000c1c6c #${DASH_SCOPE_API_KEY}
+        model-name: qwen-max
+      embedding-model:
+        api-key: sk-29792fe9a2b64bcc801c7e22000c1c6c #${DASH_SCOPE_API_KEY}
+        model-name: text-embedding-v3
+      #流式输出
+      streaming-chat-model:
+        api-key: sk-29792fe9a2b64bcc801c7e22000c1c6c #${DASH_SCOPE_API_KEY}
+        model-name: qwen-plus
+
+#设置系统的日志级别
+logging:
+  level:
+    root: info
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 1GB
+      max-request-size: 2GB
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/chat_memory_db
+    redis:
+      port: 6379
+      host: localhost
+      password: wzy1214.
+      database: 1
+
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/guiguxiaozhi?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false
+    username: root
+    password: wzy1214.
+
+
+
