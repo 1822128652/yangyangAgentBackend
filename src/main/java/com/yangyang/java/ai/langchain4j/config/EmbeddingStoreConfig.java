@@ -19,7 +19,7 @@ public class EmbeddingStoreConfig {
     public EmbeddingStore<TextSegment>  embeddingStore() {
         //创建向量存储
             EmbeddingStore<TextSegment> embeddingStore = PineconeEmbeddingStore.builder()
-                    .apiKey("pcsk_665Tub_6YCHn9DRPX5y8aUvEcU5WZ1vzEQJL6pbFoQN29LD4hTWRAaoe9j3zgj3yoGaNUN")
+                    .apiKey("改成你自己的apikey")
                     .index("xiaozhi-index")//如果指定的索引不存在，将创建一个新的索引
                     .nameSpace("xiaozhi-namespace")//如果指定的名称空间不存在，将创建一个新的名称空间
                     .createIndex(PineconeServerlessIndexConfig.builder()
@@ -31,3 +31,4 @@ public class EmbeddingStoreConfig {
             return embeddingStore;
         }
 }
+
