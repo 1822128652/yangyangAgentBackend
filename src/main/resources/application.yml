@@ -4,13 +4,9 @@ server:
 langchain4j:
   open-ai:
     chat-model:
-      #base-url: https://api.deepseek.com
-      base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
-      #api-key: sk-6fbe896448204fc1a6e229e1e0f8e87f #${DEEP_SEEK_API_KEY}
-      api-key: sk-29792fe9a2b64bcc801c7e22000c1c6c #${DASH_SCOPE_API_KEY}
-      #model-name: deepseek-reasoner
-      model-name: deepseek-r1
-      #model-name: deepseek-chat  #大语言模型
+      base_url: 改成你自己的baseurl
+      api-key: 改成你自己的apikey
+      model-name: deepseek-r1  
       #应用程序发生给大模型的请求日志和响应日志
       log-requests: true
       log-responses: true
@@ -25,14 +21,14 @@ langchain4j:
   community:
     dashscope:
       chat-model:
-        api-key: sk-29792fe9a2b64bcc801c7e22000c1c6c #${DASH_SCOPE_API_KEY}
+        api-key: 改成你自己的apikey
         model-name: qwen-max
       embedding-model:
-        api-key: sk-29792fe9a2b64bcc801c7e22000c1c6c #${DASH_SCOPE_API_KEY}
+        api-key: 改成你自己的apikey
         model-name: text-embedding-v3
       #流式输出
       streaming-chat-model:
-        api-key: sk-29792fe9a2b64bcc801c7e22000c1c6c #${DASH_SCOPE_API_KEY}
+        api-key: 改成你自己的apikey
         model-name: qwen-plus
 
 #设置系统的日志级别
@@ -51,15 +47,16 @@ spring:
     redis:
       port: 6379
       host: localhost
-      password: wzy1214.
+      password: 改成你自己的pwd
       database: 1
 
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/guiguxiaozhi?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false
+    url: jdbc:mysql://localhost:3306/改成你自己的db?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false
     username: root
-    password: wzy1214.
+    password: 改成你自己的pwd
+
 
 
 
