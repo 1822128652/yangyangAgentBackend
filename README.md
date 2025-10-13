@@ -3,3 +3,4 @@
 - 请修改 config.EmbdingConfig 中的相关配置
 - 请修改 application.yml 中的相关配置
 - 请在 Mysql 中运行数据库脚本 db.sql
+- 项目的前端项目仓库地址为：https://github.com/1822128652/yangyangAgentFront.git
