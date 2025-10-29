@@ -29,11 +29,12 @@ CREATE TABLE `schedule` (
 );
 
 
-drop table if exists `appointment`;
-CREATE TABLE `schedule` (
+drop table if exists `doctors`;
+CREATE TABLE `doctors` (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(50) NOT NULL,
   department VARCHAR(100) NOT NULL,
   account VARCHAR(50) UNIQUE NOT NULL,              -- 账号
   password VARCHAR(255) NOT NULL -- 加密存储         -- 密码
 );
+
