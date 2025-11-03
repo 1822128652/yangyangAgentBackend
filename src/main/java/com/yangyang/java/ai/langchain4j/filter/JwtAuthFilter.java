@@ -27,7 +27,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     // 放行的接口路径
     private static final List<String> EXCLUDE_PATHS = List.of(
             "/doctor/login",
-            "/doc.html"
+            "/doc.html",
+            "/xiaozhi"
     );
 
     @Override
@@ -47,7 +48,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             return;
         }
 
-        String token = authHeader.substring(7);
+        String token = authHeader.substring(7);     // 去掉 Bearer 前缀
         try{
             Claims claims = JwtUtils.parseToken(token);
             // 保存用户信息到 request

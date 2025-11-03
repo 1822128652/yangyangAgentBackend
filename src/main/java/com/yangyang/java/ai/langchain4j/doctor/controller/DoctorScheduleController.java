@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +26,7 @@ public class DoctorScheduleController {
     // 查询排班
     @Operation(summary = "查询排班")
     @GetMapping
+    //@Cacheable(value = "scheduleList", key = "'doctor:schedule'")
     public List<Schedule> listSchedules() {
         log.info("查询排班表......");
         return scheduleService.list();
@@ -32,6 +35,7 @@ public class DoctorScheduleController {
     // 新增排班
     @Operation(summary = "新增排班")
     @PostMapping
+    //@CacheEvict(value = "scheduleList", key = "'doctor:schedule'")
     public boolean addSchedule(@RequestBody Schedule schedule) {
         // 新增时默认 remaining = total
         log.info("新增排班......");
@@ -42,6 +46,7 @@ public class DoctorScheduleController {
     // 修改排班
     @Operation(summary = "修改排班")
     @PutMapping("/{id}")
+    //@CacheEvict(value = "scheduleList", key = "'doctor:schedule'")
     public boolean updateSchedule(@PathVariable("id") Long id, @RequestBody Schedule schedule) {
         log.info("修改排班......");
         schedule.setId(id);
@@ -51,6 +56,7 @@ public class DoctorScheduleController {
     // 删除排班
     @Operation(summary = "删除排班")
     @DeleteMapping("/{id}")
+    //@CacheEvict(value = "scheduleList", key = "'doctor:schedule'")
     public boolean deleteSchedule(@PathVariable("id") Long id) {
         log.info("删除排班......");
         return scheduleService.removeById(id);

@@ -62,4 +62,13 @@ public class DoctorServiceImpl extends ServiceImpl<DoctorMapper, Doctor> impleme
         doctor.setPassword(BCrypt.hashpw(newPassword, BCrypt.gensalt()));
         return doctorMapper.updateById(doctor) > 0;
     }
+
+    // 10.29 add 修改头像
+    @Override
+    public void updateAvatar(Integer doctorId, String avatarUrl) {
+        Doctor doctor = doctorMapper.selectById(doctorId);
+        doctor.setId(Long.valueOf(doctorId));
+        doctor.setAvatar(avatarUrl);
+        doctorMapper.updateById(doctor);
+    }
 }

@@ -62,4 +62,9 @@ spring:
     password: wzy1214.
 
 
+aliyun:
+  oss:
+    endpoint: https://oss-cn-beijing.aliyuncs.com
+    bucketName: yangyang-1
+    region: cn-beijing
 

@@ -1,7 +1,9 @@
 package com.yangyang.java.ai.langchain4j.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.yangyang.java.ai.langchain4j.entity.Appointment;
 import com.yangyang.java.ai.langchain4j.entity.Schedule;
 import com.yangyang.java.ai.langchain4j.mapper.ScheduleMapper;
 import com.yangyang.java.ai.langchain4j.service.ScheduleService;
@@ -62,5 +64,14 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, Schedule> i
         Schedule schedule = this.getById(id);
         schedule.setRemaining(schedule.getRemaining() + 1);
         this.updateById(schedule);
+    }
+
+    @Override
+    public List<Schedule> getDoctorNamesByDepartment(Appointment appointment) {
+        QueryWrapper<Schedule> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("department", appointment.getDepartment());
+        queryWrapper.eq("date", appointment.getDate());
+        queryWrapper.eq("time", appointment.getTime());
+        return scheduleMapper.selectList(queryWrapper);
     }
 }

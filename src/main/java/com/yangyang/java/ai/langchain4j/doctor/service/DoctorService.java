@@ -18,4 +18,7 @@ public interface DoctorService extends IService<Doctor> {
 
     // 10.10 add
     boolean updatePwd(Integer doctorId, String newPassword);
+
+    // 10.29 add
+    void updateAvatar(Integer doctorId, String avatarUrl);
 }

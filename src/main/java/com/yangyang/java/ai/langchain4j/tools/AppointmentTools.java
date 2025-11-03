@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,10 +23,12 @@ import java.util.List;
 
     private Logger log = LoggerFactory.getLogger(AppointmentTools.class);
 
-    // 9.29 修改，增加号源的校验逻辑
+    // 9.29 修改——增加号源的校验逻辑    10.29 修改——完善预约逻辑
+    @Transactional(rollbackFor = Exception.class)   // 10.29 新增——增加事务注解，确保其原子性
     @Tool(name="预约挂号", value = "根据参数，先执行工具方法queryDepartment查询是否可预约，并直接给用户回答是否可预约" +
             "，并让用户确认所有预约信息，用户确认后再进行预约。" +
-            "如果用户没有提供具体的医生姓名，请为用户推荐一位医生。")
+            "如果用户没有提供具体的医生姓名，执行工具方法getDoctorByDepartment，根据科室去查询号源，" +
+            "给出所有可用的医生！如果没有任何医生在指定时间段有该科室的排班，就给用户说明“正在通知后台新增号源，请稍后再进行预约”")
     public String bookAppointment(Appointment appointment){
         //查找数据库中是否包含对应的预约记录
         Appointment appointmentDB = appointmentService.getOne(appointment);
@@ -52,6 +55,14 @@ import java.util.List;
         return "您在相同的科室和时间已有预约";
     }
 
+
+    // 10.29 新增——未指定医生，则根据科室和时间给出可选的医生
+    @Tool(name = "根据科室和时间给出可选的医生", value = "用户没有提供具体的医生姓名，执行该方法，根据所给去查询号源，让用户选择可以预约的医生，如果没有查到任何数据，那么就给用户说明“正在通知后台新增号源，请稍后再进行预约”")
+    public List<Schedule> getDoctorByDepartment(Appointment appointment){
+        return scheduleService.getDoctorNamesByDepartment(appointment);
+    }
+
+
     // 9.29 修改——号源逻辑
     @Tool(name="取消预约挂号", value = "根据参数，查询预约是否存在，如果存在则删除预约记录并返回:取消预约成功，否则返回:取消预约失败")
     public String cancelAppointment(Appointment appointment){
@@ -72,7 +83,7 @@ import java.util.List;
             }
 
 
-    // 9.29 修改，加入号源的相关逻辑
+    // 9.29 修改 -- 加入号源的相关逻辑
     @Tool(name = "查询是否有号源", value="根据科室名称，日期，时间和医生查询是否有号源，并返回给用户")
     public boolean queryDepartment(
         @P(value = "科室名称") String department,
@@ -88,18 +99,7 @@ import java.util.List;
         log.info("正在查询号源。。。。。。");
         Schedule schedule = scheduleService.getSchedule(department, doctorName, date, time);
         if (schedule == null) {
-            // return false; // 没有排班记录，视为无号源
-
-            // 暂时生成数据供测试使用（后续数据库有数据则进行修改）
-            Schedule tempSchedule = new Schedule();
-            tempSchedule.setDepartment(department);
-            tempSchedule.setDoctorName(doctorName);
-            tempSchedule.setDate(date);
-            tempSchedule.setTime(time);
-            tempSchedule.setTotal(10);
-            tempSchedule.setRemaining(10);
-            scheduleService.addSchedule(tempSchedule);
-            return true;
+            return false; // 没有排班记录，视为无号源
         }
         return schedule.getRemaining() > 0;
     }
