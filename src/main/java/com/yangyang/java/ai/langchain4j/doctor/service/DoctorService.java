@@ -2,6 +2,9 @@ package com.yangyang.java.ai.langchain4j.doctor.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yangyang.java.ai.langchain4j.doctor.entity.Doctor;
+import com.yangyang.java.ai.langchain4j.doctor.entity.vo.DoctorVO;
+
+import java.util.List;
 
 public interface DoctorService extends IService<Doctor> {
 
@@ -21,4 +24,7 @@ public interface DoctorService extends IService<Doctor> {
 
     // 10.29 add
     void updateAvatar(Integer doctorId, String avatarUrl);
+
+    // 11.4 add
+    List<DoctorVO> getDoctorListExceptSelf(Long currentDoctorId);
 }

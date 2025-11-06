@@ -2,12 +2,16 @@ package com.yangyang.java.ai.langchain4j.doctor.service.Impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yangyang.java.ai.langchain4j.doctor.entity.Doctor;
+import com.yangyang.java.ai.langchain4j.doctor.entity.vo.DoctorVO;
 import com.yangyang.java.ai.langchain4j.doctor.mapper.DoctorMapper;
 import com.yangyang.java.ai.langchain4j.doctor.service.DoctorService;
 import org.apache.pdfbox.tools.Encrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DoctorServiceImpl extends ServiceImpl<DoctorMapper, Doctor> implements DoctorService {
@@ -70,5 +74,20 @@ public class DoctorServiceImpl extends ServiceImpl<DoctorMapper, Doctor> impleme
         doctor.setId(Long.valueOf(doctorId));
         doctor.setAvatar(avatarUrl);
         doctorMapper.updateById(doctor);
+    }
+
+    // 11.4 add 查询所有医生（排除当前登录医生）
+    @Override
+    public List<DoctorVO> getDoctorListExceptSelf(Long currentDoctorId) {
+        List<Doctor> doctorList =  doctorMapper.getDoctorListExceptSelf(currentDoctorId);
+        // 转换为前端需要的DoctorVO
+        return doctorList.stream().map(doctor -> {
+            DoctorVO vo = new DoctorVO();
+            vo.setId(doctor.getId());
+            vo.setRealName(doctor.getName());
+            vo.setAvatar(doctor.getAvatar());
+            vo.setDepartment(doctor.getDepartment());
+            return vo;
+        }).collect(Collectors.toList());
     }
 }

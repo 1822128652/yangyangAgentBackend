@@ -37,3 +37,25 @@ CREATE TABLE `doctors` (
   account VARCHAR(50) UNIQUE NOT NULL,              -- 账号
   password VARCHAR(255) NOT NULL -- 加密存储         -- 密码
 );
+-- 10.29 新增
+alter table doctors add column avatar VARCHAR(500) NOT NULL
+    DEFAULT ''
+    comment '用户头像';
+alter table doctors add column create_time datetime
+    default now()
+    comment '创建时间';
+-- 添加管理员(admin、admin)
+insert into `doctors` values (1, '超级管理员', '管理员', 'admin', '$2a$10$g72GLm1Y2KNzL1mqk7kBm.j.9qDt94A7OVl4BNK7A.Q87cbP8c2Ci', 'https://yangyang-1.oss-cn-beijing.aliyuncs.com/d69e0dd7-faf0-4b1b-b18d-2c878676c4f0.jpg', now());
+
+-- 11.3 新增
+CREATE TABLE `doctor_chat_message` (
+                                       `id` bigint NOT NULL AUTO_INCREMENT COMMENT '消息ID（主键）',
+                                       `sender_id` bigint NOT NULL COMMENT '发送者医生ID（关联doctors.id）',
+                                       `receiver_id` bigint NOT NULL COMMENT '接收者医生ID（关联doctors.id）',
+                                       `content` varchar(500) NOT NULL COMMENT '消息内容（文本）',
+                                       `send_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '发送时间',
+                                       `is_read` tinyint DEFAULT 0 COMMENT '是否已读（0-未读，1-已读）',
+                                       PRIMARY KEY (`id`),
+                                       INDEX idx_sender_receiver (`sender_id`,`receiver_id`),
+                                       INDEX idx_receiver_unread (`receiver_id`,`is_read`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='聊天消息表';
